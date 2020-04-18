@@ -1,2 +1,3 @@
-# basic_ecommerce
-First e-commerce using Django and Bootstrap.
+# Basic E-commerce
+
+> First e-commerce using Django and Bootstrap.
