@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="container">
+    {% include 'flash_messages.html' %}
     <h1>Please confirm your selection</h1>
     <form action="" method="post">
         {% csrf_token %}

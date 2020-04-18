@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-# from django.http import JsonResponse
 from .models import Product
-from .forms import ProductForm, RawProductForm
+from .forms import ProductForm
+from django.contrib import messages
+from django.db import IntegrityError
+
+
+
+
 
 def product_list_view(request):
     size = int(request.GET.get('size', 10))
@@ -18,7 +23,6 @@ def product_list_view(request):
     }
 
     return render(request, 'products/product_list.html', context)
-    # return JsonResponse(list(products.values()), safe=False)
 
 
 def product_delete_view(request, id):
@@ -49,6 +53,12 @@ def product_detail_view(request, id):
     product = Product.objects.get(id=id)
     product.count_views += 1
     product.save()
+    if request.POST:  # Para adicionar produto ao carrinho de compras
+        amount = int(request.POST.get('amount', 1))
+        if amount > product.total_in_stock:
+            messages.error(request, f"Sorry, we only have {product.total_in_stock} in stock.")
+        else:
+            messages.success(request, 'Your product was added in cart.')
     context = {
             'product': product
     }
@@ -67,32 +77,20 @@ def product_create_view(request):
    return render(request, 'products/product_create.html', context)
 
 
-def product_buy_view(request, id):
+def product_buy_view(request, id):  # funcao para fechar compra
     product = Product.objects.get(id=id)
     amount = int(request.POST.get('amount', 1))
 
     if request.POST:
-        product.sell(amount) # TODO: tratar exception de integridade.
-        product.save()
-        return redirect('/products/')
+        product.sell(amount)  # retirada de estoque do banco de dados
+        try:
+            product.save()
+            messages.success(request, 'Order successfully completed.')
+            return redirect('/products/')
+        except IntegrityError:
+            messages.error(request, f"Sorry, we only have {product.total_in_stock} in stock.")
 
     context = {'product': product}
     return render(request, 'products/product_buy.html', context)
-
-
-# def product_create_view(request):
-#     my_form = RawProductForm()
-#     if request.method == 'POST':
-#         my_form = RawProductForm(request.POST)
-#         if my_form.is_valid():
-#             print(my_form.cleaned_data)
-#             Product.objects.create(**my_form.cleaned_data)
-#         else:
-#             print(my_form.errors)
-#     context = {
-#             'form': my_form
-#     }
-#     return render(request, 'products/product_create.html', context)
-
 
 

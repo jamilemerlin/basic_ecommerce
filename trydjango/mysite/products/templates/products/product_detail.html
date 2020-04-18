@@ -3,14 +3,22 @@
 {% block content %}
 <div class="jumbotron">
     <div class="container">
+        {% include 'flash_messages.html' %}
         <h1>{{ product.title }}</h1>
         <div>views: {{ product.count_views }}</div>
-        <p>{% if product.description is test and product.description != '' and product.description != None %}{{ product.description }}{% else %}Description Coming Soon{% endif %}</p>
+        <p>{% if product.description is test and product.description != '' and product.description != None %}{{
+            product.description }}{% else %}Description Coming Soon{% endif %}</p>
         <div>${{ product.price }}</div>
         <div>
-            <a class="btn btn-primary" href="{{ product.get_absolute_url }}buy">Buy</a>
+            <form method="post">
+                {% csrf_token %}
+                <label for="amount">
+                    <input id="amount" name="amount" type="number" value="1" min="1">
+                </label>
+                <button class="btn btn-primary" type="submit">Add to Cart</button>
+            </form>
             |
-            <a class="btn btn-link" href="{{ product.get_edit_url }}">Edit</a>
+            <a class="btn btn-link" href="/products">Back</a>
         </div>
     </div>
 </div>
