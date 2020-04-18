@@ -1,0 +1,17 @@
+<div class="container">
+    <h1>Best Sellers</h1>
+    <div class="card-deck">
+        {% for product in bestsellers_products  %}
+            <div class="card shadow-lg">
+                <a href="{{ product.get_absolute_url }}"><img class="card-img-top" src="https://via.placeholder.com/350x150" alt="{{ product.title }}"></a>
+                <div class="card-body">
+                    <div class="card-title">
+                        <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                    </div>
+                    <div class="card-text">${{ product.price }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+

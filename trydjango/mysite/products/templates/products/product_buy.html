@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Please confirm your selection</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <div>{{ product.title }} {{ product.price }}</div>
+        <div>
+            <button class="btn btn-primary" type="submit">Buy</button>
+            <a class="btn btn-link" href="/products">Back</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
