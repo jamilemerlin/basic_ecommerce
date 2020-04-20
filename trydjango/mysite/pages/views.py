@@ -2,9 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-
 from products.models import Product
-from .models import Banner
+from .models import Banner, Services, Video
 
 class PagesView(View):
     template_name = 'about.html'
@@ -24,11 +23,17 @@ def home_view(request):
     bestsellers_products = Product.objects.order_by('-count_sells')[:3]
     most_viewed_products = Product.objects.order_by('-count_views')[:3]
     banners = Banner.objects.all()[:3]
+    services = Services.objects.all()[:3]
+    videos = Video.objects.all()[:1]
+
     context = {
             "featured_products": featured_products,
             "bestsellers_products": bestsellers_products,
             "most_viewed_products": most_viewed_products,
-            "banners": banners
+            "banners": banners,
+            "services": services,
+            "videos": videos
+
     }
     return render(request, 'home.html', context)
 

@@ -1,0 +1,22 @@
+<div class="container">
+    <h1>Our Services</h1>
+    <div class="card-deck">
+        {% for service in services %}
+        <div class="card">
+            <a href="{{ service.link }}">
+                {% if service.image %}
+                <img class="card-img-top" src="{{ service.image.url }}" alt="{{ service.title }}">
+                {% else %}
+                <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="{{ service.title }}">
+                {% endif %}
+            </a>
+            <div class="card-body">
+                <div class="card-title">
+                    <a href="{{ service.link }}">{{ service.title }}</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+

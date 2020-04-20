@@ -12,9 +12,7 @@
 </section>
 
 <section id="our-services" class="mb-5">
-    <div class="container">
-        <h2>TODO: LINKS</h2>
-    </div>
+    {% include 'services.html' %}
 </section>
 
 <section id="bestsellers" class="mb-5">
@@ -22,8 +20,14 @@
 </section>
 
 <section id="video" class="mb-5">
-    <div class="container">
-        <h2>TODO: VIDEO</h2>
+    <div class="container text-center">
+    {% for video in videos %}
+    {% if video and video.code %}
+    {% autoescape off %}
+    {{ video.code }}
+    {% endautoescape %}
+    {% endif %}
+    {% endfor %}
     </div>
 </section>
 
@@ -34,12 +38,6 @@
 <section id="testimonials" class="mb-5">
     <div class="container">
         <h2>TODO: Testimonials</h2>
-    </div>
-</section>
-
-<section id="banner2" class="mb-5">
-    <div class="container">
-        <h2>TODO: Fixed Banner</h2>
     </div>
 </section>
 
