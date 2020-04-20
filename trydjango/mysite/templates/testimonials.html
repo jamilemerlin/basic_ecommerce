@@ -1,0 +1,10 @@
+<div class="container">
+    {% for testimonial in testimonials %}
+    <blockquote class="blockquote">
+        <p>{{ testimonial.message }}</p>
+        <footer class="blockquote-footer">{{ testimonial.name }}, {{ testimonial.date }}</footer>
+    </blockquote>
+
+    {% endfor %}
+</div>
+

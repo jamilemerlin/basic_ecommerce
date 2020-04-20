@@ -21,3 +21,8 @@ class Services(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=120)
     code = models.TextField(blank=True, null=True)
+
+class Testimonial(models.Model):
+    message = models.TextField(blank=True, null=True)
+    name = models.CharField(max_length=60)
+    date = models.DateTimeField(null=True)
