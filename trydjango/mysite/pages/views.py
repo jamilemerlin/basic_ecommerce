@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.views import View
 
 from products.models import Product
+from .models import Banner
 
 class PagesView(View):
     template_name = 'about.html'
@@ -22,10 +23,12 @@ def home_view(request):
     featured_products = Product.objects.filter(featured=True)
     bestsellers_products = Product.objects.order_by('-count_sells')[:3]
     most_viewed_products = Product.objects.order_by('-count_views')[:3]
+    banners = Banner.objects.all()[:3]
     context = {
             "featured_products": featured_products,
             "bestsellers_products": bestsellers_products,
-            "most_viewed_products": most_viewed_products
+            "most_viewed_products": most_viewed_products,
+            "banners": banners
     }
     return render(request, 'home.html', context)
 
