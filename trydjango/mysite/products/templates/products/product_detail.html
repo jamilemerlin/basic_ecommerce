@@ -5,6 +5,11 @@
     <div class="container">
         {% include 'flash_messages.html' %}
         <h1>{{ product.title }}</h1>
+        <div>
+            {% if product.image %}
+            <img width="300" src="{{ product.image.url }}" alt="{{ product.title }}">
+            {% endif %}
+        </div>
         <div>views: {{ product.count_views }}</div>
         <p>{% if product.description is test and product.description != '' and product.description != None %}{{
             product.description }}{% else %}Description Coming Soon{% endif %}</p>
