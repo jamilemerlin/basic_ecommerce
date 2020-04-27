@@ -4,6 +4,8 @@ from .models import Product
 from .forms import ProductForm
 from django.contrib import messages
 from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -76,12 +78,13 @@ def product_create_view(request):
    }
    return render(request, 'products/product_create.html', context)
 
-
+@login_required()
 def product_buy_view(request, id):  # funcao para fechar compra
     product = Product.objects.get(id=id)
     amount = int(request.POST.get('amount', 1))
 
     if request.POST:
+        # TODO: verificar se o usuario esta logado
         product.sell(amount)  # retirada de estoque do banco de dados
         try:
             product.save()

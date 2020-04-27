@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Profile</h1>
+    {% if user.is_authenticated %}
+    <p>You are authenticated as: {{ user.username }}</p>
+    {% else %}
+    <p>You are not authenticated. Please <a href="/accounts/login">login</a> to access your profile.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a href="/" class="nav-link">Home</a>
             </li>
@@ -16,9 +16,30 @@
             <li class="nav-item">
                 <a href="/blog" class="nav-link">Blog</a>
             </li>
-            <li class="nav-item">
-                <a href="/admin" class="nav-link">Admin</a>
+            <!--            <li class="nav-item">-->
+            <!--                <a href="/admin" class="nav-link">Admin</a>-->
+            <!--            </li>-->
+        </ul>
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+                <button type="button" class="btn btn-light dropdown-toggle" id="navbarDropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ user.username }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/accounts/profile">Profile</a>
+                    <a class="dropdown-item" href="#">My Cart</a>
+<!--                    <a class="dropdown-item" href="#">My Orders</a>-->
+<!--                    <a class="dropdown-item" href="#">Wish List</a>-->
+                    <a class="dropdown-item" href="/accounts/logout">Logout</a>
+                </div>
             </li>
+            {% else %}
+            <li class="nav-item">
+                <span class="nav-link"><a class="btn btn-light" href="/accounts/login">Login</a></span>
+            </li>
+            {% endif %}
         </ul>
     </nav>
 </div>
