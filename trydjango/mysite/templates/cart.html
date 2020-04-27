@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+
+<div class="container">
+    <h1>Cart</h1>
+    {% for cart_item in cart_list %}
+    <div> {{ cart_item.product.title }} {{ cart_item.product.price }} {{ cart_item.amount }}</div>
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}

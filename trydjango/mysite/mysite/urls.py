@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from pages.views import PagesView, home_view
+from products.views import cart_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +30,7 @@ urlpatterns = [
     path('about/', PagesView.as_view(template_name='about.html'), name='about'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', PagesView.as_view(template_name='user/profile.html'), name='profile'),
+    path('cart/', cart_view, name='cart')
 
 
 ]

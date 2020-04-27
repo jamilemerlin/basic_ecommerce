@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Product(models.Model):
@@ -16,10 +17,6 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-    # def get_absolute_url(self):
-    #    return f"/products/{self.id}/"
-    # def para criar url no title do produto.
-
     def get_absolute_url(self):
         return reverse("products:product_detail", kwargs={"id": self.id})
 
@@ -29,3 +26,9 @@ class Product(models.Model):
     def sell(self, amount):
         self.total_in_stock -= amount
         self.count_sells += amount
+
+
+class Cart(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.PositiveIntegerField(default=0)

@@ -1,14 +1,20 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from .models import Product
+from .models import Product, Cart
 from .forms import ProductForm
 from django.contrib import messages
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 
 
-
-
+@login_required()
+def cart_view(request):
+    current_user = request.user
+    current_cart = Cart.objects.filter(buyer=current_user.id)
+    context = {
+            "cart_list": current_cart
+    }
+    return render(request, 'cart.html', context)
 
 
 def product_list_view(request):
@@ -84,7 +90,6 @@ def product_buy_view(request, id):  # funcao para fechar compra
     amount = int(request.POST.get('amount', 1))
 
     if request.POST:
-        # TODO: verificar se o usuario esta logado
         product.sell(amount)  # retirada de estoque do banco de dados
         try:
             product.save()
