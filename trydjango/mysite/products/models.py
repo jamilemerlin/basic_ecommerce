@@ -32,3 +32,10 @@ class Cart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField(default=0)
+    def total_price(self):
+        total = self.amount * self.product.price
+        return total
+
+
+
+

@@ -3,9 +3,24 @@
 {% block content %}
 
 <div class="container">
-    <h1>Profile</h1>
+    <h1 class="h4">Profile</h1>
     {% if user.is_authenticated %}
-    <p>You are authenticated as: {{ user.username }}</p>
+    <div class="row">
+        <div class="col-auto">
+            <img src="http://placehold.it/100x100" alt="" class="img-responsive rounded-circle"/>
+        </div>
+        <div class="col">
+            <h2>{{ user.username }}</h2>
+            <p>
+                {{ user.email }}
+<!--                <br/>-->
+<!--                <i class="glyphicon glyphicon-globe"></i><a-->
+<!--                    href="http://www.jquery2dotnet.com">www.jquery2dotnet.com</a>-->
+<!--                <br/>-->
+<!--                <i class="glyphicon glyphicon-gift"></i>June 02, 1988-->
+            </p>
+        </div>
+    </div>
     {% else %}
     <p>You are not authenticated. Please <a href="/accounts/login">login</a> to access your profile.</p>
     {% endif %}

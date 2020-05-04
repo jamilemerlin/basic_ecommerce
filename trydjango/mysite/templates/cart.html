@@ -3,11 +3,33 @@
 {% block content %}
 
 <div class="container">
+    {% include 'flash_messages.html' %}
     <h1>Cart</h1>
     {% for cart_item in cart_list %}
-    <div> {{ cart_item.product.title }} {{ cart_item.product.price }} {{ cart_item.amount }}</div>
+    <div>
+        {{ cart_item.product.title }}
+        R${{ cart_item.product.price }}
+        <form action="/cart/update" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">-</button>
+            <input type="hidden" readonly="readonly" value="{{ cart_item.amount|add:-1 }}" name="amount">
+            <input type="hidden" value="{{ cart_item.product.id }}" name="product_id">
+        </form>
+        <input type="text" readonly="readonly" value="{{ cart_item.amount }}" name="amount">
+         <form action="/cart/update" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">+</button>
+            <input type="hidden" readonly="readonly" value="{{ cart_item.amount|add:1 }}" name="amount">
+            <input type="hidden" value="{{ cart_item.product.id }}" name="product_id">
+        </form>
+        <div> {{ cart_item.total_price }} </div>
+    </div>
     {% endfor %}
+    <form action="/cart/buy" method="post">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit">Buy</button>
 
+    </form>
 
 </div>
 

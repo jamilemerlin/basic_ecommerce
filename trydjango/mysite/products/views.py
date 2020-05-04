@@ -7,6 +7,49 @@ from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 
 
+
+@login_required()
+def update_product_cart(request):
+    product = int(request.POST.get('product_id'))
+    amount = int(request.POST.get('amount'))
+    current_user = request.user
+    cart_list = Cart.objects.filter(buyer=current_user.id)
+
+    if request.POST:
+        for cart_item in cart_list:
+            if product == cart_item.product.id:
+                if amount == 0:
+                    cart_item.delete()
+                    messages.success(request, 'Product removed')
+                if amount > 0:
+                    cart_item.amount = amount
+                    cart_item.save()
+
+    context = {'cart_list': cart_list}
+    return redirect('/cart', context)
+
+
+@login_required()
+def cart_buy_view(request):  # funcao para fechar compra de varios produtos
+    current_user = request.user
+    cart_list = Cart.objects.filter(buyer=current_user.id)
+
+    if request.POST:
+        for cart_item in cart_list:
+            amount = cart_item.amount
+            cart_item.product.sell(amount)
+            try:
+                cart_item.product.save()
+                messages.success(request, 'Order successfully completed.')
+                cart_item.delete()
+            except IntegrityError:
+                messages.error(request, f"Sorry, we only have {cart_item.product.total_in_stock} in stock.")
+
+    context = {'cart_list': cart_list}
+    return redirect('/cart', context)
+
+
+
 @login_required()
 def cart_view(request):
     current_user = request.user
@@ -66,7 +109,11 @@ def product_detail_view(request, id):
         if amount > product.total_in_stock:
             messages.error(request, f"Sorry, we only have {product.total_in_stock} in stock.")
         else:
+            buyer = request.user
+            cart_item = Cart(buyer=buyer, product=product, amount=amount)
+            cart_item.save()
             messages.success(request, 'Your product was added in cart.')
+
     context = {
             'product': product
     }
@@ -94,7 +141,7 @@ def product_buy_view(request, id):  # funcao para fechar compra
         try:
             product.save()
             messages.success(request, 'Order successfully completed.')
-            return redirect('/products/')
+            return redirect('/cart')
         except IntegrityError:
             messages.error(request, f"Sorry, we only have {product.total_in_stock} in stock.")
 
