@@ -5,10 +5,22 @@
     <div class="container">
         {% include 'flash_messages.html' %}
         <h1>{{ product.title }}</h1>
-        <div>
-            {% if product.image %}
-            <img width="300" src="{{ product.image.url }}" alt="{{ product.title }}">
-            {% endif %}
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in product.gallery.all %}
+                    <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
+                            <img width="300" src="{{ image.image.url }}" alt="{{ image.description }}">
+                    </div>
+                    {% endfor %}
+                </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
         <div>views: {{ product.count_views }}</div>
         <p>{% if product.description is test and product.description != '' and product.description != None %}{{

@@ -8,7 +8,7 @@
     {% for cart_item in cart_list %}
     <div>
         {{ cart_item.product.title }}
-        R${{ cart_item.product.price }}
+        <div>R$<span> {{ cart_item.product.price_integer }},</span><small>{{ cart_item.product.price_coin }} </small></div>
         <form action="/cart/update" method="post">
             {% csrf_token %}
             <button class="btn btn-primary" type="submit">-</button>
